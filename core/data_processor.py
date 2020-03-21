@@ -2,6 +2,7 @@ import math
 import numpy as np
 import pandas as pd
 import os
+from core.utils import get_file
 import matplotlib.pyplot as plt
 
 def func(path):
@@ -26,10 +27,9 @@ class DataLoader():
         self.len_train_windows = None
         self.split = split
         self.cols = cols
-        # self.files = func('data\\train')
 
 
-    def get_train_datas(self, seq_len, normalise):
+    def get_train_datas(self, seq_len, normalise,train_path):
         '''
         Create x, y train data windows
         Warning: batch method, not generative, make sure you have enough memory to
@@ -37,9 +37,9 @@ class DataLoader():
         '''
         data_x = []
         data_y = []
-        for file in func('data/train') :
+        for file in get_file(train_path) :
             # if 'D9' in file:
-            filename = os.path.join('data/train', file)
+            filename = os.path.join(train_path, file)
             dataframe = pd.read_csv(filename)
             i_split = int(len(dataframe) * self.split)
             data_train = dataframe.get(self.cols).values[:i_split]
@@ -102,8 +102,6 @@ class DataLoader():
         y = window[-1, [0]]
         return x, y
    
-
-
     def normalise_windows(self, window_data, single_window=False):
         '''Normalise window with a base value of zero'''
         normalised_data = []
