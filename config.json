@@ -1,0 +1,68 @@
+{
+	"data": {
+		"filename": "D5J2.csv",
+		"trainpath": "data/train",
+		"testpath": "data/test",
+		"log_dir":"result/log",
+		"columns": ["Crackwidth","With_temp","Upstream","waterhead","temp_dif"],
+		"sequence_length": 11,
+		"train_test_split": 1.0,
+		"normalise": false
+	},
+	"training": {
+		"epochs": 100,
+		"batch_size": 32
+	},
+	"model": {
+		"loss": "mae_mse",
+		"optimizer": "adam",
+		"acc": "cosine_proximity",     
+		"save_dir": "result/saved_models",
+		"layers": [
+			{
+				"type": "gru",
+				"neurons": 256,
+				"input_timesteps": 10,
+				"input_dim": 5,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.5
+			},
+			{
+				"type": "gru",
+				"neurons": 512,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.5
+			},
+			{
+				"type": "gru",
+				"neurons": 512,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.5
+			},            
+			{
+				"type": "gru",
+				"neurons": 512,
+				"return_seq": false
+			},
+			{
+				"type": "dropout",
+				"rate": 0.5
+			},
+			
+			{
+				"type": "dense",
+				"neurons": 1,
+				"activation": "linear"
+			}
+		]
+	}
+}
