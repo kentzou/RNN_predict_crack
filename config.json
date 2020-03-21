@@ -1,9 +1,12 @@
 {
 	"data": {
 		"filename": "D5J2.csv",
+		"save_path":"data/csv", 
+		"origin_path":"data/m_data",
 		"trainpath": "data/train",
 		"testpath": "data/test",
 		"log_dir":"result/log",
+		"result":"result/csv",
 		"columns": ["Crackwidth","With_temp","Upstream","waterhead","temp_dif"],
 		"sequence_length": 11,
 		"train_test_split": 1.0,
