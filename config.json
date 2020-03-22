@@ -7,14 +7,15 @@
 		"testpath": "data/test",
 		"log_dir":"result/log",
 		"result":"result/csv",
+		"validpath": "data/valid",
 		"columns": ["Crackwidth","With_temp","Upstream","waterhead","temp_dif"],
 		"sequence_length": 11,
 		"train_test_split": 1.0,
 		"normalise": false
 	},
 	"training": {
-		"epochs": 100,
-		"batch_size": 32
+		"epochs": 50,
+		"batch_size": 128
 	},
 	"model": {
 		"loss": "mae_mse",
@@ -24,7 +25,7 @@
 		"layers": [
 			{
 				"type": "gru",
-				"neurons": 256,
+				"neurons": 100,
 				"input_timesteps": 10,
 				"input_dim": 5,
 				"return_seq": true
@@ -32,28 +33,10 @@
 			{
 				"type": "dropout",
 				"rate": 0.5
-			},
+			},           
 			{
 				"type": "gru",
-				"neurons": 512,
-				"return_seq": true
-			},
-			{
-				"type": "dropout",
-				"rate": 0.5
-			},
-			{
-				"type": "gru",
-				"neurons": 512,
-				"return_seq": true
-			},
-			{
-				"type": "dropout",
-				"rate": 0.5
-			},            
-			{
-				"type": "gru",
-				"neurons": 512,
+				"neurons": 100,
 				"return_seq": false
 			},
 			{
