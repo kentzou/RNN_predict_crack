@@ -1,8 +1,6 @@
 # RNN_predict_crack
 
-[![standard-readme compliant](https://github.com/kentzou/RNN_predict_crack.git)
-
-Gru was used to predict crack openings of concrete DAMS
+The purpose of this project is to explore the problem of RNN used to predict the crack openness of concrete.
 
 This repository contains:
 
@@ -12,20 +10,6 @@ This repository contains:
 		  utils.py has a Timer() class for timing, a get_file() function for traversing all the files in the folder, and a custom loss function mas_mse()
 3. config.json is a configuration file.
 4. RNN_predict_crack.ipynb runs file.
-
-
-## Table of Contents
-
-- [Install](#install)
-- [Usage](#usage)
-	- [Generator](#generator)
-- [Badge](#badge)
-- [Example Readmes](#example-readmes)
-- [Related Efforts](#related-efforts)
-- [Maintainers](#maintainers)
-- [Contributing](#contributing)
-- [License](#license)
-
 
 ## Install
 
