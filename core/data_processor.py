@@ -102,6 +102,8 @@ class DataLoader():
         y = window[-1, [0]]
         return x, y
    
+
+
     def normalise_windows(self, window_data, single_window=False):
         '''Normalise window with a base value of zero'''
         normalised_data = []

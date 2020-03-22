@@ -4,19 +4,10 @@ import numpy as np
 import datetime as dt
 from numpy import newaxis
 from keras import metrics
-from core.utils import Timer
-from keras import backend as K
+from core.utils import Timer,mae_mse
 from keras.layers import Dense, Activation, Dropout, LSTM, GRU, Embedding, Bidirectional
 from keras.models import Sequential, load_model
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
-
-
-# 自定义损失函数
-def mae_mse(y_true, y_pred):
-    MAE_loss = K.mean(K.abs(y_pred-y_true), axis=-1)
-    MSE_loss = K.mean(K.square(y_pred-y_true), axis=-1)
-
-    return MAE_loss*0.1+MSE_loss*0.9
 
 
 
@@ -45,11 +36,13 @@ class Model():
             if layer['type'] == 'dense':
                 self.model.add(Dense(neurons, activation=activation))
             if layer['type'] == 'gru':
-                self.model.add(Bidirectional(GRU(neurons, input_shape=(
+                self.model.add(Bidirectional(GRU(neurons,dropout=0.1,
+                    input_shape=(
                     input_timesteps, input_dim), return_sequences=return_seq)))
                 # self.model.add(GRU(neurons, input_shape=(input_timesteps, input_dim), return_sequences=return_seq))
             if layer['type'] == 'lstm':
-                self.model.add(Bidirectional(LSTM(neurons, input_shape=(
+                self.model.add(Bidirectional(LSTM(neurons,dropout=0.1,
+                    input_shape=(
                     input_timesteps, input_dim), return_sequences=return_seq)))
                 # self.model.add(LSTM(neurons, input_shape=(input_timesteps, input_dim), return_sequences=return_seq))
             if layer['type'] == 'dropout':
@@ -57,16 +50,16 @@ class Model():
 
         #self.model.compile(loss=configs['model']['loss'], optimizer=configs['model']['optimizer'],metrics=[configs['model']['acc']])
         self.model.compile(loss=mae_mse, optimizer=configs['model']['optimizer'], metrics=[
-                           configs['model']['acc']])
+                           configs['model']['acc'],'mse'])
         # mae
 
         print('[Model] Model Compiled')
         timer.stop()
 
-    def train(self, x, y, configs):
+    def train(self, x, y, configs,valid_spilt):
         timer = Timer()
         timer.start()
-        #print('[Model] Training Started')
+        print('[Model] Training Started')
         #print('[Model] %s epochs, %s batch size' % (configs['training']['epochs'], configs['training']['batch_size']))
         model_file = os.path.join(
             '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y-%H%M%S'), str(configs['training']['epochs'])))
@@ -85,9 +78,11 @@ class Model():
             y,
             epochs=configs['training']['epochs'],
             batch_size=configs['training']['batch_size'],
-            callbacks=callbacks
+            callbacks=callbacks,
+            validation_split = valid_spilt,
+            validation_data = None
+            
         )
-        # save_fname = os.path.join('%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y-%H%M%S'), str(configs['training']['epochs'])))
 
         self.model.save(save_fname)
         timer.stop()

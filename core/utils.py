@@ -1,5 +1,6 @@
 import datetime as dt
 import os
+from keras import backend as K
 
 def get_file(path):
     temp = []
@@ -13,7 +14,7 @@ def get_file(path):
 def mae_mse(y_true, y_pred):
     MAE_loss = K.mean(K.abs(y_pred-y_true), axis=-1)
     MSE_loss = K.mean(K.square(y_pred-y_true), axis=-1)
-    return MAE_loss*0.5+MSE_loss*0.5	
+    return MAE_loss*0.1+MSE_loss*0.9
 class Timer():
 
 	def __init__(self):
