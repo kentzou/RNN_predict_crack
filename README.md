@@ -13,7 +13,7 @@ This repository contains:
 
 ## Install
 
-download [standard-readme compliant](https://github.com/kentzou/RNN_predict_crack.git)
+Download [RNN_predict_crack](https://github.com/kentzou/RNN_predict_crack.git)
 ```
 $ pip install keras=2.3.1
 $ pip install tensorflow-gpu=1.14.0
